@@ -135,9 +135,14 @@ copy_toolchain_sysroot = \
 			$(call simplify_symlink,$$i,$(STAGING_DIR)) ; \
 		done ; \
 	fi ; \
-	if [ ! -e $(STAGING_DIR)/lib/ld*.so.* ]; then \
-		if [ -e $${ARCH_SYSROOT_DIR}/lib/ld*.so.* ]; then \
-			cp -a $${ARCH_SYSROOT_DIR}/lib/ld*.so.* $(STAGING_DIR)/lib/ ; \
+	if [ "$(TOOLCHAIN_EXTERNAL_READELF)" != "" ]; then \
+		LD_NAME=`$(TOOLCHAIN_EXTERNAL_READELF) -d $${ARCH_SYSROOT_DIR}$${ARCH_LIB_DIR}/libc-*.so|grep ld-linux|grep so|awk '{print $$NF}'|sed "s/\[//g"|sed "s/\]//g"`; \
+	else \
+		LD_NAME="ld*.so.*"; \
+	fi; \
+	if [ ! -e $(STAGING_DIR)/lib/$${LD_NAME} ]; then \
+		if [ -e $${ARCH_SYSROOT_DIR}/lib/$${LD_NAME} ]; then \
+			cp -a $${ARCH_SYSROOT_DIR}/lib/$${LD_NAME} $(STAGING_DIR)/lib/ ; \
 		fi ; \
 	fi ; \
 	if [ `readlink -f $${SYSROOT_DIR}` != `readlink -f $${ARCH_SYSROOT_DIR}` ] ; then \
