@@ -51,7 +51,7 @@ book@virtual-machine:~/Neza-D1/buildroot-2021$  make uboot-rebuild V=1
 
 * 单独编译 kernel阶段
 ``` shell
-book@virtual-machine:~/Neza-D1/buildroot-2021$  make kernel-rebuild V=1
+book@virtual-machine:~/Neza-D1/buildroot-2021$  make linux-rebuild V=1
 ```
 
 * 单独编译文件系统
